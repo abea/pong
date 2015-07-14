@@ -1,0 +1,14 @@
+@import 'normalize/normalize';
+
+
+body {
+  background-color: darkgray;
+}
+#field {
+  display: block;
+  width:40rem;
+  height: 30rem;
+  background: green;
+  border: .5rem white solid;
+  margin: 6rem auto;
+}
