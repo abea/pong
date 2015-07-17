@@ -106,7 +106,7 @@
         return Math.floor(Math.random() * (max - min + 1)) + min;
       }
       this.xSpeed = getRandomIntInclusive(minXSpeed, maxSpeed);
-      this.ySpeed =   getRandomIntInclusive(minYSpeed, maxSpeed);
+      this.ySpeed = getRandomIntInclusive(minYSpeed, maxSpeed);
       this.getBallPos = function() {
         return [this.x, this.y];
       };
@@ -116,18 +116,17 @@
         this.x += this.xSpeed;
         this.y += this.ySpeed;
         if (this.y - this.radius < ceiling || this.y + this.radius > floor) { 
-          this.ySpeed = this.ySpeed * -1;    
+          this.ySpeed = this.ySpeed * -1.1;    
         }
         if ((this.x + this.radius > player.paddle.x ) &&
             (this.y > player.paddle.y &&
              this.y < player.paddle.y + paddleHeight) 
-           )
-        { 
-          this.xSpeed = this.xSpeed * -1;    
+           ) { 
+          this.xSpeed = this.xSpeed * -1.1;    
         } else if (this.x - this.radius < computer.paddle.x + paddleWidth &&
             (this.y > computer.paddle.y &&
              this.y < computer.paddle.y + paddleHeight)) { 
-          this.xSpeed = this.xSpeed * -1;    
+          this.xSpeed = this.xSpeed * -1.1;
         }
       };
 
