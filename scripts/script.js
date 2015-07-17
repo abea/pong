@@ -26,7 +26,7 @@
       this.y = y;
       this.width = width;
       this.height = height;
-      var increment = 30;
+      var increment = 40;
       this.move = function(event) {
         switch (event.key) {
           case 'ArrowUp':
@@ -59,25 +59,53 @@
     function Player(playerType, paddle) {
       this.playerType = playerType;
       this.paddle = paddle;
+      this.paddleStart = paddle;
       this.render = function() {
         context.fillStyle = 'yellow';
         context.beginPath();
         context.fillRect(this.paddle.x, this.paddle.y, this.paddle.width, this.paddle.height);
+        if (this.playerType === 'computer') {
+          $('.compinfo').text(this.getCompInfo());
+        }
       };
-      
       var movePaddle = function(e) {
         this.paddle.move(e);
         console.log(this.paddle.getPos());
       };
       this.movePaddle = movePaddle;
+// ********************** AI ***************************      
+      var compYSpeed = 0;
+      var maxCompSpeed = 3;
+      var updateComp = function( ) {
+        if ((ball.ySpeed >= (-1 * maxCompSpeed)) && (ball.ySpeed <= maxCompSpeed)) {
+          this.compYSpeed = ball.ySpeed;
+          this.paddle.y += this.compYSpeed;
+        } else {
+          this.compYSpeed = maxCompSpeed*Math.sign(ball.ySpeed);
+          this.paddle.y += this.compYSpeed;          
+        }
+//        this.paddle.y = ball.y - (paddle.height / 2);
+      };
+      this.resetPaddle = function() {
+        this.paddle.y = paddleResetY;
+      };
+      if (this.playerType === 'computer') {
+        this.compYSpeed = compYSpeed;
+        this.updateComp = updateComp;
+        this.getCompInfo = function() {
+        return this.compYSpeed;
+        };
+      }
+// *********************************************************
     }
+    var paddleResetY = (midHeight - (paddleHeight/2));
     var player = new Player(
       'human', 
-      new Paddle(rightSide, (midHeight - (paddleHeight/2)), paddleWidth, paddleHeight)
+      new Paddle(rightSide, paddleResetY, paddleWidth, paddleHeight)
     );
     var computer = new Player(
       'computer', 
-      new Paddle(leftSide, (midHeight - (paddleHeight/2)), paddleWidth, paddleHeight)
+      new Paddle(leftSide, paddleResetY, paddleWidth, paddleHeight)
     );
 
     // BALL
@@ -103,45 +131,82 @@
           minXSpeed = 2,
           maxSpeed = 3;
       function getRandomIntInclusive(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+        return (Math.random() * (max - min + 1)) + min;
       }
       this.xSpeed = getRandomIntInclusive(minXSpeed, maxSpeed);
       this.ySpeed = getRandomIntInclusive(minYSpeed, maxSpeed);
-      this.getBallPos = function() {
-        return [this.x, this.y];
+      this.getBallInfo = function() {
+        return this.ySpeed;
       };
 
       this.moveBall = function(){
-        $('.ballPos').text(this.getBallPos());
+        $('.ballPos').text(this.getBallInfo());
         this.x += this.xSpeed;
         this.y += this.ySpeed;
         if (this.y - this.radius < ceiling || this.y + this.radius > floor) { 
-          this.ySpeed = this.ySpeed * -1.1;    
+          this.ySpeed = this.ySpeed * -1;    
         }
         if ((this.x + this.radius > player.paddle.x ) &&
             (this.y > player.paddle.y &&
              this.y < player.paddle.y + paddleHeight) 
            ) { 
-          this.xSpeed = this.xSpeed * -1.1;    
+          this.xSpeed = (this.xSpeed * -1.05);
+          this.ySpeed = (this.ySpeed * 1.05);
         } else if (this.x - this.radius < computer.paddle.x + paddleWidth &&
             (this.y > computer.paddle.y &&
              this.y < computer.paddle.y + paddleHeight)) { 
-          this.xSpeed = this.xSpeed * -1.1;
+          this.xSpeed = (this.xSpeed * -1.05);
+          this.ySpeed = (this.ySpeed * 1.05) ;
         }
+// TEMPORARY END GAME
+//        this.endGame = function(){
+//          if (this.x > field.width + this.radius || this.x < -this.radius) {
+//            this.xSpeed = 0;
+//            this.ySpeed = 0;
+//          }
+//        }
+// TEMPORARY END GAME END
+      };
+      this.reset = function (){
+        this.x = placeBall.x;
+        this.y = placeBall.y;
+      };
+      this.resetBall = function (){
+//          this.xSpeed = 0;
+//          this.ySpeed = 0;
+          this.x = placeBall.x;
+          this.y = placeBall.y;
+          this.xSpeed = getRandomIntInclusive(minXSpeed, maxSpeed);
+          this.ySpeed = getRandomIntInclusive(minYSpeed, maxSpeed);
       };
 
     }
 
     var ball = new createBall(kickOffPoint);
 
+    function reset() {
+      if (ball.x > (field.width + ball.radius) || ball.x < -ball.radius) {
+        if (ball.x > (field.width + ball.radius)) {
+          alert(' COMPUTER POINT ');
+        } else {
+          alert(' PLAYER POINT ');
+        }
+        ball.resetBall();
+        computer.resetPaddle();
+        player.resetPaddle();
 
+      }
+    }
+    function update(){
+      ball.moveBall();
+      computer.updateComp();
+    }
     function render() {
       player.render();
       computer.render();
       ball.render();
-      ball.moveBall();
+//      ball.endGame();
     }
-    // PADDLE CONTROL
     var animate = window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame || 
         window.mozRequestAnimationFrame || 
@@ -149,20 +214,21 @@
         window.msRequestAnimationFrame || function(callback) {
       window.setTimeout(callback, 1000 / 60);
     };
-    
+//    var shouldGo = true;
     function clear() {
       field.width = field.width;
     }
     function step() {
-      clear();
-      drawField();
-      render();
-      animate(step);
+//      if (shouldGo) {
+        clear();
+        drawField();
+        render();
+        update();
+        animate(step);
+        reset();
+//      }
     }
-//  function gameInit(){
-//
-//
-//  }
+
 //  $(document).ready(function() {
 //    gameInit();
     

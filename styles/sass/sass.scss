@@ -1,8 +1,12 @@
 @import 'normalize/normalize';
-
+$header-font : 'Cabin Sketch', Helvetica, sans-serif;
 
 body {
   background-color: darkgray;
+}
+h1 {
+  font-family: $header-font;
+  text-align: center;
 }
 #field {
   display: block;

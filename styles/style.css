@@ -177,6 +177,10 @@ th {
 body {
   background-color: darkgray; }
 
+h1 {
+  font-family: "Cabin Sketch", Helvetica, sans-serif;
+  text-align: center; }
+
 #field {
   display: block;
   width: 40rem;
