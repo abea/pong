@@ -182,7 +182,13 @@ body {
   width: 40rem;
   height: 30rem;
   background: green;
-  border: .5rem white solid;
+  border-top: .5rem white solid;
+  border-bottom: .5rem white solid;
   margin: 2rem auto; }
+
+.center {
+  position: relative;
+  left: 50%;
+  margin: 5px; }
 
 /*# sourceMappingURL=style.css.map */
