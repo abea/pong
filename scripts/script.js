@@ -9,7 +9,8 @@
         ceiling = 0,
         floor = field.height;
     var computerScore = 0,
-        playerScore = 0;
+        playerScore = 0,
+        winningScore = 11;
     
     function drawField() {
       context.beginPath();
@@ -19,9 +20,6 @@
       context.lineWidth = 8;
       context.stroke();
     }
-
-
-    // PADDLE / PLAYERS
 
     function Paddle(x, y, width, height) {
       this.x = x;
@@ -52,7 +50,6 @@
       };
       this.getPos = function() {return [this.x, this.y];};
     }
-
     var paddleBuffer = 20,
         paddleWidth = 8,
         paddleHeight = 60,
@@ -66,9 +63,9 @@
         context.fillStyle = 'yellow';
         context.beginPath();
         context.fillRect(this.paddle.x, this.paddle.y, this.paddle.width, this.paddle.height);
-        if (this.playerType === 'computer') {
-          $('.compinfo').text(this.getCompInfo());
-        }
+//        if (this.playerType === 'computer') {
+//          $('.compinfo').text(this.getCompInfo());
+//        }
       };
       var movePaddle = function(e) {
         this.paddle.move(e);
@@ -86,7 +83,6 @@
           this.compYSpeed = maxCompSpeed*Math.sign(ball.ySpeed);
           this.paddle.y += this.compYSpeed;          
         }
-//        this.paddle.y = ball.y - (paddle.height / 2);
       };
       this.resetPaddle = function() {
         this.paddle.y = paddleResetY;
@@ -142,7 +138,7 @@
       };
 
       this.moveBall = function(){
-        $('.ballPos').text(this.getBallInfo());
+//        $('.ballPos').text(this.getBallInfo());
         this.x += this.xSpeed;
         this.y += this.ySpeed;
         if (this.y - this.radius < ceiling || this.y + this.radius > floor) { 
@@ -160,22 +156,13 @@
           this.xSpeed = (this.xSpeed * -1.05);
           this.ySpeed = (this.ySpeed * 1.05) ;
         }
-// TEMPORARY END GAME
-//        this.endGame = function(){
-//          if (this.x > field.width + this.radius || this.x < -this.radius) {
-//            this.xSpeed = 0;
-//            this.ySpeed = 0;
-//          }
-//        }
-// TEMPORARY END GAME END
+
       };
       this.reset = function (){
         this.x = placeBall.x;
         this.y = placeBall.y;
       };
       this.resetBall = function (){
-//          this.xSpeed = 0;
-//          this.ySpeed = 0;
           this.x = placeBall.x;
           this.y = placeBall.y;
           this.xSpeed = getRandomIntInclusive(minXSpeed, maxSpeed);
@@ -183,24 +170,41 @@
       };
 
     }
-
     var ball = new createBall(kickOffPoint);
 
+    var stop = false;
+    var gameOverMessage = function(message){
+      $('.endgame').css('display','block');
+      $('.endgame').html('<h2>' + message + '</h2><p>Refresh the page to play again.</p>');        
+    };
+    function endGame (){
+      console.log('end game. computer' + computerScore + '// player' + playerScore);
+      if (playerScore === 11) {
+        gameOverMessage("You Win!");
+      } else if (computerScore === 11) {
+        gameOverMessage("Game Over...");
+      }
+      playerScore = 0;
+      computerScore = 0;
+      stop = true;
+    }
     function reset() {
       if (ball.x > (field.width + ball.radius) || ball.x < -ball.radius) {
         if (ball.x > (field.width + ball.radius)) {
           computerScore += 1;
           $('.playerone').html('Computer Score: ' + computerScore);
-          confirm('Computer point. Ready?');
         } else {
           playerScore += 1;
           $('.playertwo').html('Player Score: ' + playerScore);
-          confirm('Your point! Ready?');
+        }
+        if (playerScore === winningScore || computerScore === winningScore) {
+          endGame();
+        } else {
+          confirm('Ready? Click OK or hit Enter.');
         }
         ball.resetBall();
         computer.resetPaddle();
         player.resetPaddle();
-
       }
     }
     function update(){
@@ -225,20 +229,19 @@
       field.width = field.width;
     }
     function step() {
-//      if (shouldGo) {
+      if (!stop) {
         clear();
         drawField();
         render();
         update();
         animate(step);
         reset();
-//      }
+      }
     }
 
 //  $(document).ready(function() {
 //    gameInit();
     
     step();
-//    window.addEventListener("keydown", player.paddle.move);
     window.addEventListener("keypress", function(e) {player.movePaddle(e);});
   }); // END DOC.READY

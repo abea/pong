@@ -182,7 +182,8 @@ body {
 h1 {
   font-family: "Cabin Sketch", Helvetica, sans-serif;
   text-align: center;
-  font-size: 3rem; }
+  font-size: 3.5rem;
+  margin: 1rem; }
 
 #field {
   display: block;
@@ -191,21 +192,40 @@ h1 {
   background: green;
   border-top: .5rem white solid;
   border-bottom: .5rem white solid;
-  margin: 2rem auto; }
+  margin: 1rem auto; }
 
 .center {
   position: relative;
   left: 50%;
   margin: 5px; }
 
+.endgame {
+  position: absolute;
+  display: none;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: 30%;
+  z-index: 999;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.75); }
+  .endgame h2 {
+    font: 7rem "Cabin Sketch", Helvetica, sans-serif;
+    margin: 1rem; }
+  .endgame p {
+    font-size: 3rem; }
+
+.instructions {
+  text-align: center; }
+
 .scoreboard {
   font-weight: bold;
-  font-size: 1.5rem; }
+  font-size: 1rem; }
   .scoreboard ul {
     list-style: none; }
     .scoreboard ul li {
       display: inline-block;
-      margin: 1rem; }
+      margin: 0.5rem; }
       @media screen and (min-width: 40rem) {
         .scoreboard ul li {
           width: 40%; } }
