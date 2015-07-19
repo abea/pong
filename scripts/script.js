@@ -69,7 +69,7 @@
       };
       var movePaddle = function(e) {
         this.paddle.move(e);
-        console.log(this.paddle.getPos());
+//        console.log(this.paddle.getPos());
       };
       this.movePaddle = movePaddle;
 // ********************** AI ***************************      
@@ -179,9 +179,9 @@
     };
     function endGame (){
       console.log('end game. computer' + computerScore + '// player' + playerScore);
-      if (playerScore === 11) {
+      if (playerScore === winningScore) {
         gameOverMessage("You Win!");
-      } else if (computerScore === 11) {
+      } else if (computerScore === winningScore) {
         gameOverMessage("Game Over...");
       }
       playerScore = 0;
