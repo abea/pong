@@ -8,6 +8,8 @@
         midHeight = (field.height / 2),
         ceiling = 0,
         floor = field.height;
+    var computerScore = 0,
+        playerScore = 0;
     
     function drawField() {
       context.beginPath();
@@ -187,9 +189,13 @@
     function reset() {
       if (ball.x > (field.width + ball.radius) || ball.x < -ball.radius) {
         if (ball.x > (field.width + ball.radius)) {
-          alert(' COMPUTER POINT ');
+          computerScore += 1;
+          $('.playerone').html('Computer Score: ' + computerScore);
+          confirm('Computer point. Ready?');
         } else {
-          alert(' PLAYER POINT ');
+          playerScore += 1;
+          $('.playertwo').html('Player Score: ' + playerScore);
+          confirm('Your point! Ready?');
         }
         ball.resetBall();
         computer.resetPaddle();
