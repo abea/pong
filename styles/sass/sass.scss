@@ -1,0 +1,71 @@
+@import 'normalize/normalize';
+$header-font : 'Cabin Sketch', Helvetica, sans-serif;
+
+body {
+  background-color: darkgray;
+  max-width: 43.75rem;
+  margin: 0 auto;
+}
+h1 {
+  font-family: $header-font;
+  text-align: center;
+  font-size: 3.5rem;
+  margin: 1rem;
+}
+footer {
+  text-align: right;
+  font-size: 0.8rem;
+}
+#field {
+  display: block;
+  width:40rem;
+  height: 30rem;
+  background: green;
+  border-top: .5rem white solid;
+  border-bottom: .5rem white solid;
+  margin: 1rem auto;
+}
+.center {
+  position:relative;
+  left: 50%;
+  margin: 5px;
+}
+.endgame {
+  position:absolute;
+  display: none;
+  left:0;
+  right:0;
+  margin: 0 auto;
+  top: 30%;
+  z-index: 999;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.75);
+  h2 {
+    font: 7rem $header-font;
+    margin: 1rem;
+  }
+  p {
+    font-size: 3rem;
+  }
+
+}
+.instructions {
+  text-align: center;
+}
+.scoreboard {
+  font-weight: bold;
+  font-size: 1rem;
+  ul {
+    list-style: none;
+    li {
+      display: inline-block;
+      margin: 0.5rem;
+      @media screen and (min-width:40rem) {
+        width:40%;
+      }
+      &:nth-child(1) {
+        float: left;
+      }
+    }
+  }
+}
