@@ -10,7 +10,7 @@ $(document).ready(function() {
       floor = field.height;
   var computerScore = 0,
       playerScore = 0,
-      winningScore = 1;
+      winningScore = 11;
 
   function drawField() {
     context.beginPath();
