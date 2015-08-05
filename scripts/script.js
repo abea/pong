@@ -28,7 +28,7 @@ $(document).ready(function() {
     this.height = height;
     var increment = 40;
     this.move = function(event) {
-      switch (event.keyCode) {
+      switch (event.which) {
         case arrowUpCode:
           if (this.y > increment ) {
             this.y = this.y - increment;
