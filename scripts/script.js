@@ -1,5 +1,3 @@
-// width="640px" height="480px" 
-  
 $(document).ready(function() {
 
   var field = document.getElementById('field'),
@@ -63,13 +61,9 @@ $(document).ready(function() {
       context.fillStyle = 'yellow';
       context.beginPath();
       context.fillRect(this.paddle.x, this.paddle.y, this.paddle.width, this.paddle.height);
-//        if (this.playerType === 'computer') {
-//          $('.compinfo').text(this.getCompInfo());
-//        }
     };
     var movePaddle = function(e) {
       this.paddle.move(e);
-//        console.log(this.paddle.getPos());
     };
     this.movePaddle = movePaddle;
 // ********************** AI ***************************      
@@ -129,7 +123,6 @@ $(document).ready(function() {
         this.ySpeed = getRandomInclusive(minYSpeed, maxSpeed);
     };      
     this.resetBall();
-// DONE: Replace these with resetBall();
     this.radius = placeBall.radius;
     this.render = function() {
       context.fillStyle = 'white';
@@ -138,16 +131,11 @@ $(document).ready(function() {
       context.closePath();
       context.fill();
     };
-
-// DONE: remove Int from name
-
     this.getBallInfo = function() {
       return this.ySpeed;
     };
 
     this.moveBall = function(){
-//        $('.ballPos').text(this.getBallInfo());
-
       this.x += this.xSpeed;
       this.y += this.ySpeed;
       if (this.y - this.radius < ceiling || this.y + this.radius > floor) { 
@@ -166,8 +154,6 @@ $(document).ready(function() {
            this.y < computer.paddle.y + paddleHeight)) { 
         this.increaseSpeed();
       }
-// DONE: Move speed increase constant into variable.
-// DONE: Move paddle redirection into helper function. 
     };
     this.reset = function (){
       this.x = placeBall.x;
@@ -242,8 +228,6 @@ $(document).ready(function() {
     }
   }
 
-//  $(document).ready(function() {
-//    gameInit();
   step();
   $(window).keydown(function(e){
     if (!e){
@@ -251,4 +235,4 @@ $(document).ready(function() {
     }
     player.movePaddle(e);
   });
-}); // END DOC.READY
+});
